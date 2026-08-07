@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./MyOrders.css";
 import { StoreContext } from "../../context/StoreContext";
 import axios from "axios";
@@ -23,6 +23,9 @@ const MyOrders = () => {
     if (token) {
       fetchOrders();
     }
+    // fetchOrders is intentionally excluded: including it would cause an
+    // infinite re-fetch loop since the function reference changes each render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
   return (
     <div className="my-orders">
