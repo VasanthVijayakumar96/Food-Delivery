@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
@@ -11,6 +12,11 @@ import MyOrders from "./pages/MyOrders/MyOrders";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import ScrollToHash from "./components/ScrollToHash/ScrollToHash";
+
+// Lazy-load the Diagnostics/Export page so it is not bundled into the main chunk.
+const DiagnosticsExport = lazy(
+  () => import("./pages/DiagnosticsExport/DiagnosticsExport")
+);
 
 const App = () => {
   return (
@@ -27,6 +33,14 @@ const App = () => {
           <Route path="/myorders" element={<MyOrders />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route
+            path="/diagnostics/export"
+            element={
+              <Suspense fallback={<div>Loading…</div>}>
+                <DiagnosticsExport />
+              </Suspense>
+            }
+          />
         </Routes>
       </div>
       <Footer />
