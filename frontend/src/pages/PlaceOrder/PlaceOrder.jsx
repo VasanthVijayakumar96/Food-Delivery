@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./PlaceOrder.css";
 import { StoreContext } from "../../context/StoreContext";
 import axios from "axios";
@@ -62,6 +62,10 @@ const PlaceOrder = () => {
       toast.error("Please Add Items to Cart");
       navigate("/cart")
     }
+    // getTotalCartAmount and navigate are excluded from deps intentionally:
+    // getTotalCartAmount is a new function reference each render and would
+    // cause an infinite loop; navigate is stable but not reactive here.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[token])
   return (
     <form className="place-order" onSubmit={placeOrder}>
